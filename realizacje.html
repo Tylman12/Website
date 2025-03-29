@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Realizacje - Veruschka Production</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #ffd700;
+      --dark: #000000;
+      --gray: #333333;
+      --light-gray: #444444;
+      --text: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      background: var(--dark);
+      overflow-x: hidden;
+    }
+    
+    /* HEADER */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      transition: background 0.3s ease, padding 0.3s ease;
+    }
+    
+    .header.scrolled {
+      background: rgba(0,0,0,0.9);
+      padding: 15px 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+    
+    .logo img {
+      height: 50px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+      transition: transform 0.3s ease;
+    }
+    
+    .logo img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* MENU BUTTON */
+    .menu-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--gold);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn:hover {
+      background: rgba(255,215,0,0.2);
+      transform: scale(1.1);
+    }
+    
+    .menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn span::before,
+    .menu-btn span::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn span::before { transform: translateY(-8px); }
+    .menu-btn span::after { transform: translateY(8px); }
+    
+    .menu-btn.active span { background: transparent; }
+    .menu-btn.active span::before { transform: rotate(45deg); }
+    .menu-btn.active span::after { transform: rotate(-45deg); }
+    
+    /* NAVIGATION PANEL */
+    .nav-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 99;
+      padding: 120px 40px 40px;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    }
+    
+    .nav-panel.active {
+      transform: translateX(0);
+    }
+    
+    .nav-list {
+      list-style: none;
+    }
+    
+    .nav-list li {
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .nav-list a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      display: inline-block;
+      position: relative;
+      padding: 5px 0;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.5s ease, opacity 0.5s ease, color 0.3s ease;
+    }
+    
+    .nav-panel.active .nav-list a {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: calc(0.1s * var(--i));
+    }
+    
+    .nav-list a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    
+    .nav-list a:hover {
+      color: var(--gold);
+      transform: translateX(10px);
+    }
+    
+    .nav-list a:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .nav-socials {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-socials a {
+      color: rgba(255,255,255,0.6);
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-socials a:hover {
+      color: var(--gold);
+      transform: translateY(-5px);
+    }
+    
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('2popr.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      margin-bottom: 50px;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE6UlEQVR4nO2aW4hVVRjHf3PGmdHJsZwxp6w0wwqzKLvQBT3YDWmih6ToBdEnX+yliB56i+ihXgqCEKMoKogyuthL0kOXhyi6QPcuXcB0prwMOjPO7+PwX7Q97tmX9ew5Z3QL/rB519prfdfa3/rW+r61txHZpQ7MBG4B2oAOoA1oAS4C6oAB4ARwmP+IrgeeAtYDZ4FRoJzwnQXWAU+X7kNy1QHLgS+DSW4Bjnm/TwOfAu9y/oKvAJM1qZ/193vAB8AeYCBgpLyGdwPXDahFE4APgMMCSgBn7HcJ6DLb/LGPcw58C3zHFYBG4H1gF1ASoK/8AHwF9AJ9wFFbkW77bQroA57zxvsQeAMYKgJ6ErBQfV0PPELlrbMYuB3YaMZdYdwCOIVp+b9sBT4RABGh64C1wD6D8uWv9eVvAVzh2mzJbgTuUudngUsLAjkP/AB8HzDfLIAvjzHWFv3eBrwC/G7jvlSlMW9XnheQXFtlH02SOYA/Avwq6VkFXJNgzFYNOFXz9AVMeJXRoBLglJ/fMGRRIkOuUOOlwGQ9XGDXKN0Z9dMxoDuBsbpCzxYBskDRZY9mHKwHqQmMWWtRsBJLJrh2L6ZF1d0dFeUdwItKfHmTTwGxvXS1Ps8DAnCjHg5bkitKkxTSy/oMSN9qLUPK4bxUP91p98hAjRmbssrkyKJK+CWDmK/fDqYYYJoqq7Tkd1TDNUtKPfJ/iypnq2jCfGwYMbO0V8FQ07Vs7TEB/SWY4VJgqrXtjIRYYXWvFLpSAiyVptkuS/9Dxj6abblPSxNt0w1TiTqBH3UDnpCBT2sFlkZS79hJK3QeeBso0jxUlgYr+SwnDJRnPR1KD2mXzJFRfJcRRiPwVcwAT4jZP5/AUGOlB2ToXkv+YWg2X8AxpRu/XjVYCT4xkOezxOhV+qzG6LnMlqxPvKx7pxIgcthnGfeI4QyZJE+rRb55EsgE9VcCGshyK1YCvFUJMFqmKKE3W/GKU7OC/pAVp/+a/pB1NLgQY5ZmA5Nx9xUFIoOOdLHOmS8HlwCvS6WvSgnE0qjxNgR0TRLVShXetBqQ2HS/GtvkVRVJhLrI2daMWi7z2w3iQ1UG7VF1syRB3TNVzQQN3hNjqA32sEOJ7YY0Qwq6eANusZwxVnWm52Wa1aXVzxQZ9kvA/qAflMmPRcU+izlYX+MNoWRaDHfbO7sXRY1W6LbbqQHFrshiXSSTgKd1mU+QUc9LtRKr12JkjTYE+0XxfOqAzZb80miuXEuveW+jbZzuhKvTa8FgRk4o/7ZMsWeIcbMuzyBtLAhkXR5AnJoBY2C6qIrU0QEJsjdyXvhzNPglO3DGKUuoL5QbWmRLH1Q38CuFTr/5GqNT/f6kM2KJcvp6mwLh9k+eiSyh+4BdgdrlvzYF/dRbHPZX42NNlr75ROpbZTnZn+QjBuiIosA20ThbvXtesbCwxbsP5lv0cqsTQ4oAy8Ywd6NdyGeLBppnmqBb2WqCxvQnsUsa5JDnC58G/jXYUfUZtxXojmS/SBrMGPvMqEfM0Ht1CfnP/hXwdVSNdFgHuVg0LVbUQqvVHZ8Nyr2SJCE3WCkOV/ky8JWBRKFpj16s/a4BwtrohIx4VNUv/IlMtvx+Su3Ogf8AbHwwmcbJRvMAAAAASUVORK5CYII=');
+      opacity: 0.08;
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+    
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      animation: fadeInUp 1s ease;
+    }
+    
+    .hero h1:after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: var(--gold);
+    }
+    
+    .hero p {
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+      font-weight: 300;
+      animation: fadeInUp 1.2s ease;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    /* FILTER CONTROLS */
+    .filter-controls {
+      max-width: 1200px;
+      margin: 0 auto 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+    
+    .filter-btn {
+      padding: 10px 20px;
+      background: var(--gray);
+      color: var(--text);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      border-radius: 3px;
+    }
+    
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--gold);
+      color: var(--dark);
+    }
+    
+    /* VIDEO GRID */
+    .video-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      padding: 0 20px;
+    }
+    
+    .video-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: translateY(30px);
+      opacity: 0;
+      animation: staggerFadeIn 0.5s forwards;
+    }
+    
+    .video-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+    
+    .video-thumbnail {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    
+    .video-thumbnail iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .video-info {
+      padding: 15px;
+      background: var(--light-gray);
+    }
+    
+    .video-info h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .video-info p {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+    
+    .video-item:hover .video-overlay {
+      opacity: 1;
+    }
+    
+    .play-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255,215,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+    }
+    
+    .play-btn i {
+      color: var(--dark);
+      font-size: 24px;
+      margin-left: 5px;
+    }
+    
+    .video-item:hover .play-btn {
+      transform: scale(1);
+    }
+    
+    /* FOOTER */
+    footer {
+      background: linear-gradient(to bottom, rgba(0,0,0,0), var(--dark));
+      margin-top: 100px;
+      padding: 80px 20px 30px;
+      position: relative;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    
+    .footer-column h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--gold);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .footer-column h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+    }
+    
+    .footer-column p {
+      margin-bottom: 15px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-column a:hover {
+      color: var(--gold);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--gold);
+      transform: translateY(-5px);
+    }
+    
+    .social-links a i {
+      color: var(--dark);
+      font-size: 16px;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 50px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+    }
+    
+    .copyright a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    
+    /* ANIMATIONS */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes staggerFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Set animation delay for each item */
+    .video-item:nth-child(1) { animation-delay: 0.1s; }
+    .video-item:nth-child(2) { animation-delay: 0.2s; }
+    .video-item:nth-child(3) { animation-delay: 0.3s; }
+    .video-item:nth-child(4) { animation-delay: 0.4s; }
+    .video-item:nth-child(5) { animation-delay: 0.5s; }
+    .video-item:nth-child(6) { animation-delay: 0.6s; }
+    .video-item:nth-child(7) { animation-delay: 0.7s; }
+    .video-item:nth-child(8) { animation-delay: 0.8s; }
+    .video-item:nth-child(9) { animation-delay: 0.9s; }
+    .video-item:nth-child(10) { animation-delay: 1.0s; }
+    
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .header {
+        padding: 20px;
+      }
+      
+      .header.scrolled {
+        padding: 15px 20px;
+      }
+      
+      .logo img {
+        height: 40px;
+      }
+      
+      .hero {
+        height: 50vh;
+      }
+      
+      .hero h1 {
+        font-size: 32px;
+      }
+      
+      .hero p {
+        font-size: 16px;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+      
+      .filter-controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .filter-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="logo">
+      <a href="index.html">
+        <img src="logoveruschkaczarne.jpg" alt="Veruschka Production">
+      </a>
+    </div>
+    <div class="menu-btn" id="menuBtn">
+      <span></span>
+    </div>
+  </header>
+  
+  <!-- NAVIGATION PANEL -->
+  <nav class="nav-panel" id="navPanel">
+    <ul class="nav-list">
+      <li><a href="index.html" style="--i:1;">STRONA GŁÓWNA</a></li>
+      <li><a href="onas.html" style="--i:2;">O NAS</a></li>
+      <li><a href="realizacje.html" style="--i:3;">REALIZACJE</a></li>
+      <li><a href="kontakt.html" style="--i:5;">KONTAKT</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://facebook.com/VeruschkaProduction" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/veruschkaproduction" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://youtube.com/veruschkaproduction" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://vimeo.com/veruschkaproduction" target="_blank"><i class="fab fa-vimeo-v"></i></a>
+    </div>
+  </nav>
+  
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Nasze Realizacje</h1>
+      <p>Odkryj kolekcję naszych najlepszych produkcji filmowych, które przekraczają granice konwencjonalnej narracji i oddają naszą pasję do tworzenia wyjątkowych projektów.</p>
+    </div>
+  </section>
+  
+  <!-- FILTER CONTROLS -->
+  <div class="filter-controls">
+    <button class="filter-btn active" data-filter="all">Wszystkie</button>
+    <button class="filter-btn" data-filter="corporate">Korporacyjne</button>
+    <button class="filter-btn" data-filter="documentary">Dokumentalne</button>
+    <button class="filter-btn" data-filter="commercial">Reklamowe</button>
+  </div>
+  
+  <!-- VIDEO GRID -->
+  <div class="video-grid">
+    <!-- Video 1 -->
+    <div class="video-item" data-category="documentary">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/cnq-HrzhXBU?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Dokument Kulinarny</h3>
+        <p>Film dokumentalny o polskiej kuchni i tradycjach</p>
+      </div>
+    </div>
+    
+    <!-- Video 2 -->
+    <div class="video-item" data-category="commercial">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/1ya3q6lABU0?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Spot Reklamowy</h3>
+        <p>Kampania marki premium z unikalnymi efektami wizualnymi</p>
+      </div>
+    </div>
+    
+    <!-- Video 3 -->
+    <div class="video-item" data-category="corporate">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/NOOOcZv0qEU?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Film Korporacyjny</h3>
+        <p>Przedstawienie wartości i misji firmy</p>
+      </div>
+    </div>
+    
+    <!-- Video 4 -->
+    <div class="video-item" data-category="documentary">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/8YmL4xAKC7Y?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Historia Niezwykła</h3>
+        <p>Film dokumentalny inspirowany prawdziwymi wydarzeniami</p>
+      </div>
+    </div>
+    
+    <!-- Video 5 -->
+    <div class="video-item" data-category="social">
+      <div class="video-thumbnail">
+        <iframe src="https://player.vimeo.com/video/166402272?api=1" allow="autoplay" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Wsparcie Społeczne</h3>
+        <p>Kampania promująca aktywizm i zaangażowanie</p>
+      </div>
+    </div>
+    
+    <!-- Video 6 -->
+    <div class="video-item" data-category="commercial">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/aslZ0UrglNE?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Produkt Premium</h3>
+        <p>Spot reklamowy dla marki luksusowej</p>
+      </div>
+    </div>
+    
+    <!-- Video 7 -->
+    <div class="video-item" data-category="corporate">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/RcCiXZjKQJ8?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Event Firmowy</h3>
+        <p>Relacja z wydarzenia korporacyjnego</p>
+      </div>
+    </div>
+    
+    <!-- Video 8 -->
+    <div class="video-item" data-category="documentary">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/Q2q1HdOhFWk?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Śladami Historii</h3>
+        <p>Odkrywanie zapomnianych miejsc i ich historii</p>
+      </div>
+    </div>
+    
+    <!-- Video 9 -->
+    <div class="video-item" data-category="social">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/6HRj4BdwEdw?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Świadomość Ekologiczna</h3>
+        <p>Kampania edukacyjna o ochronie środowiska</p>
+      </div>
+    </div>
+    
+    <!-- Video 10 -->
+    <div class="video-item" data-category="commercial">
+      <div class="video-thumbnail">
+        <iframe src="https://www.youtube.com/embed/_H8fTPKXRZg?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay">
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <h3>Marka Lifestyle</h3>
+        <p>Promocja marki z sektora lifestyle i wellbeing</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>O Veruschka Production</h4>
+        <p>Jesteśmy studiem produkcyjnym specjalizującym się w tworzeniu wyjątkowych materiałów filmowych, które przekraczają granice konwencjonalnej narracji.</p>
+        <div class="social-links">
+          <a href="https://facebook.com/VeruschkaProduction" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com/veruschkaproduction" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://youtube.com/veruschkaproduction" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://vimeo.com/veruschkaproduction" target="_blank"><i class="fab fa-vimeo-v"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Nasze Usługi</h4>
+        <ul>
+          <li><a href="#">Produkcje filmowe</a></li>
+          <li><a href="#">Filmy korporacyjne</a></li>
+          <li><a href="#">Spoty reklamowe</a></li>
+          <li><a href="#">Filmy dokumentalne</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Kontakt</h4>
+        <p><i class="fas fa-map-marker-alt"></i> Warszawa, Polska</p>
+        <p><i class="fas fa-phone"></i> +48 123 456 789</p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:kontakt@veruschka.com.pl">kontakt@veruschka.com.pl</a></p>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; Veruschka Production 2025 | Wszystkie prawa zastrzeżone.
+    </div>
+  </footer>
+  
+  <!-- YouTube API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- Vimeo API -->
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  
+  <script>
+    // Navigation toggle
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      this.classList.toggle('active');
+      document.getElementById('navPanel').classList.toggle('active');
+    });
+    
+    // Scrolled header effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const videoItems = document.querySelectorAll('.video-item');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Get filter value
+        const filterValue = this.getAttribute('data-filter');
+        
+        // Filter videos
+        videoItems.forEach(item => {
+          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+            item.style.display = 'block';
+            
+            // Reset animation
+            item.style.animation = 'none';
+            item.offsetHeight; // Trigger reflow
+            item.style.animation = 'staggerFadeIn 0.5s forwards';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // Initialize animation delay for staggered effect
+    videoItems.forEach((item, index) => {
+      item.style.animationDelay = `${0.1 * (index + 1)}s`;
+    });
+    
+    // Video play functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const videoOverlays = document.querySelectorAll('.video-overlay');
+      
+      videoOverlays.forEach(overlay => {
+        overlay.addEventListener('click', function() {
+          const videoContainer = this.closest('.video-thumbnail');
+          const iframe = videoContainer.querySelector('iframe');
+          const src = iframe.getAttribute('src');
+          
+          // Hide the overlay
+          this.style.opacity = 0;
+          this.style.pointerEvents = 'none';
+          
+          // Check if YouTube or Vimeo
+          if (src.includes('youtube')) {
+            // YouTube video
+            const player = new YT.Player(iframe, {
+              events: {
+                'onReady': function(event) {
+                  event.target.playVideo();
+                }
+              }
+            });
+          } else if (src.includes('vimeo')) {
+            // Vimeo video
+            const player = new Vimeo.Player(iframe);
+            player.play();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

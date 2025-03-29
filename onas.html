@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>O nas - Veruschka Production</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #ffd700;
+      --dark: #000000;
+      --gray: #1a1a1a;
+      --light-gray: #333333;
+      --text: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      background: var(--dark);
+      overflow-x: hidden;
+    }
+    
+    /* HEADER */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      transition: background 0.3s ease, padding 0.3s ease;
+    }
+    
+    .header.scrolled {
+      background: rgba(0,0,0,0.9);
+      padding: 15px 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+    
+    .logo img {
+      height: 50px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+      transition: transform 0.3s ease;
+    }
+    
+    .logo img:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 5px 15px rgba(255,215,0,0.3)) brightness(1.2);
+    }
+    
+    /* MENU BUTTON */
+    .menu-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--gold);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn:hover {
+      background: rgba(255,215,0,0.2);
+      transform: scale(1.1);
+    }
+    
+    .menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn span::before,
+    .menu-btn span::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn span::before { transform: translateY(-8px); }
+    .menu-btn span::after { transform: translateY(8px); }
+    
+    .menu-btn.active span { background: transparent; }
+    .menu-btn.active span::before { transform: rotate(45deg); }
+    .menu-btn.active span::after { transform: rotate(-45deg); }
+    
+    /* NAVIGATION PANEL */
+    .nav-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 99;
+      padding: 120px 40px 40px;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    }
+    
+    .nav-panel.active {
+      transform: translateX(0);
+    }
+    
+    .nav-list {
+      list-style: none;
+    }
+    
+    .nav-list li {
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .nav-list a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      display: inline-block;
+      position: relative;
+      padding: 5px 0;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.5s ease, opacity 0.5s ease, color 0.3s ease;
+    }
+    
+    .nav-panel.active .nav-list a {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: calc(0.1s * var(--i));
+    }
+    
+    .nav-list a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    
+    .nav-list a:hover {
+      color: var(--gold);
+      transform: translateX(10px);
+    }
+    
+    .nav-list a:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .nav-socials {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-socials a {
+      color: rgba(255,255,255,0.6);
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-socials a:hover {
+      color: var(--gold);
+      transform: translateY(-5px);
+    }
+    
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('grupowe1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      margin-bottom: 80px;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE6UlEQVR4nO2aW4hVVRjHf3PGmdHJsZwxp6w0wwqzKLvQBT3YDWmih6ToBdEnX+yliB56i+ihXgqCEKMoKogyuthL0kOXhyi6QPcuXcB0prwMOjPO7+PwX7Q97tmX9ew5Z3QL/rB519prfdfa3/rW+r61txHZpQ7MBG4B2oAOoA1oAS4C6oAB4ARwmP+IrgeeAtYDZ4FRoJzwnQXWAU+X7kNy1QHLgS+DSW4Bjnm/TwOfAu9y/oKvAJM1qZ/193vAB8AeYCBgpLyGdwPXDahFE4APgMMCSgBn7HcJ6DLb/LGPcw58C3zHFYBG4H1gF1ASoK/8AHwF9AJ9wFFbkW77bQroA57zxvsQeAMYKgJ6ErBQfV0PPELlrbMYuB3YaMZdYdwCOIVp+b9sBT4RABGh64C1wD6D8uWv9eVvAVzh2mzJbgTuUudngUsLAjkP/AB8HzDfLIAvjzHWFv3eBrwC/G7jvlSlMW9XnheQXFtlH02SOYA/Avwq6VkFXJNgzFYNOFXz9AVMeJXRoBLglJ/fMGRRIkOuUOOlwGQ9XGDXKN0Z9dMxoDuBsbpCzxYBskDRZY9mHKwHqQmMWWtRsBJLJrh2L6ZF1d0dFeUdwItKfHmTTwGxvXS1Ps8DAnCjHg5bkitKkxTSy/oMSN9qLUPK4bxUP91p98hAjRmbssrkyKJK+CWDmK/fDqYYYJoqq7Tkd1TDNUtKPfJ/iypnq2jCfGwYMbO0V8FQ07Vs7TEB/SWY4VJgqrXtjIRYYXWvFLpSAiyVptkuS/9Dxj6abblPSxNt0w1TiTqBH3UDnpCBT2sFlkZS79hJK3QeeBso0jxUlgYr+SwnDJRnPR1KD2mXzJFRfJcRRiPwVcwAT4jZP5/AUGOlB2ToXkv+YWg2X8AxpRu/XjVYCT4xkOezxOhV+qzG6LnMlqxPvKx7pxIgcthnGfeI4QyZJE+rRb55EsgE9VcCGshyK1YCvFUJMFqmKKE3W/GKU7OC/pAVp/+a/pB1NLgQY5ZmA5Nx9xUFIoOOdLHOmS8HlwCvS6WvSgnE0qjxNgR0TRLVShXetBqQ2HS/GtvkVRVJhLrI2daMWi7z2w3iQ1UG7VF1syRB3TNVzQQN3hNjqA32sEOJ7YY0Qwq6eANusZwxVnWm52Wa1aXVzxQZ9kvA/qAflMmPRcU+izlYX+MNoWRaDHfbO7sXRY1W6LbbqQHFrshiXSSTgKd1mU+QUc9LtRKr12JkjTYE+0XxfOqAzZb80miuXEuveW+jbZzuhKvTa8FgRk4o/7ZMsWeIcbMuzyBtLAhkXR5AnJoBY2C6qIrU0QEJsjdyXvhzNPglO3DGKUuoL5QbWmRLH1Q38CuFTr/5GqNT/f6kM2KJcvp6mwLh9k+eiSyh+4BdgdrlvzYF/dRbHPZX42NNlr75ROpbZTnZn+QjBuiIosA20ThbvXtesbCwxbsP5lv0cqsTQ4oAy8Ywd6NdyGeLBppnmqBb2WqCxvQnsUsa5JDnC58G/jXYUfUZtxXojmS/SBrMGPvMqEfM0Ht1CfnP/hXwdVSNdFgHuVg0LVbUQqvVHZ8Nyr2SJCE3WCkOV/ky8JWBRKFpj16s/a4BwtrohIx4VNUv/IlMtvx+Su3Ogf8AbHwwmcbJRvMAAAAASUVORK5CYII=');
+      opacity: 0.08;
+      z-index: 1;
+      animation: noiseAnimation 0.5s infinite;
+    }
+    
+    @keyframes noiseAnimation {
+      0% { opacity: 0.08; }
+      50% { opacity: 0.10; }
+      100% { opacity: 0.08; }
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+    
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      animation: fadeInUp 1s ease;
+    }
+    
+    .hero h1:after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: var(--gold);
+    }
+    
+    .hero p {
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 30px auto 0;
+      font-weight: 300;
+      animation: fadeInUp 1.2s ease;
+      max-width: 700px;
+    }
+    
+    /* ABOUT SECTION */
+    .about-section {
+      max-width: 1200px;
+      margin: 0 auto 100px;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+    
+    .about-text {
+      flex: 1 1 550px;
+      background-color: var(--gray);
+      padding: 50px;
+      border-left: 5px solid var(--gold);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      line-height: 1.8;
+      transition: all 0.4s ease;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards 0.3s;
+    }
+    
+    .about-text::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid rgba(255,215,0,0.1);
+      pointer-events: none;
+    }
+    
+    .about-text:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+    }
+    
+    .about-text h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: var(--gold);
+      font-weight: 300;
+      letter-spacing: 1px;
+      position: relative;
+      padding-left: 20px;
+    }
+    
+    .about-text h2::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--gold);
+    }
+    
+    .about-text p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .about-text a {
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .about-text a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    
+    .about-text a:hover {
+      color: var(--gold);
+    }
+    
+    .about-text a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    .highlight {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    
+    .about-photo {
+      flex: 1 1 400px;
+      min-height: 450px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 30px 20px 50px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(30px),translateX(300px);
+      animation: fadeInUp 1s ease forwards 0.6s;
+    }
+    
+    .about-photo::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(0,0,0,0.5), transparent);
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+    
+    .about-photo:hover::after {
+      background: linear-gradient(45deg, rgba(255,215,0,0.2), transparent);
+    }
+    
+    .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    
+    .about-photo:hover img {
+      transform: scale(1.05);
+    }
+    
+    /* PARALLAX ELEMENTS */
+    .parallax-element {
+      position: absolute;
+      background: rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      border-radius: 3px;
+      z-index: 2;
+      opacity: 0.5;
+    }
+    
+    .parallax-1 {
+      width: 150px;
+      height: 80px;
+      top: 15%;
+      left: 10%;
+      transform: rotate(-5deg);
+      animation: float 15s infinite ease-in-out;
+    }
+    
+    .parallax-2 {
+      width: 100px;
+      height: 100px;
+      bottom: 20%;
+      right: 15%;
+      transform: rotate(10deg);
+      animation: float 18s infinite ease-in-out reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+      50% {
+        transform: translateY(-15px) rotate(-5deg);
+      }
+    }
+    
+    /* FOOTER */
+    footer {
+      background: linear-gradient(to bottom, rgba(0,0,0,0), var(--dark));
+      padding: 80px 20px 30px;
+      position: relative;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    
+    .footer-column h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--gold);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .footer-column h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+    }
+    
+    .footer-column p {
+      margin-bottom: 15px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-column a:hover {
+      color: var(--gold);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--gold);
+      transform: translateY(-5px);
+    }
+    
+    .social-links a i {
+      color: var(--dark);
+      font-size: 16px;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 50px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+    }
+    
+    .copyright a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    
+    /* ANIMATIONS */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* SIDE ELEMENTS */
+    .side-line {
+      position: fixed;
+      top: 50%;
+      left: 40px;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 40vh;
+      background: linear-gradient(to bottom, transparent, rgba(255,215,0,0.5), transparent);
+      z-index: 5;
+    }
+    
+    .scroll-indicator {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1.5s;
+    }
+    
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    .scroll-indicator span {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    
+    .scroll-indicator .line {
+      width: 1px;
+      height: 70px;
+      background: linear-gradient(to bottom, rgba(255,215,0,0.5), transparent);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .scroll-indicator .line::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: var(--gold);
+      animation: scrollDown 2s infinite;
+    }
+    
+    @keyframes scrollDown {
+      0% { top: -30%; }
+      100% { top: 100%; }
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .header {
+        padding: 20px;
+      }
+      
+      .logo img {
+        height: 40px;
+      }
+      
+      .hero {
+        height: 50vh;
+      }
+      
+      .hero h1 {
+        font-size: 32px;
+      }
+      
+      .hero p {
+        font-size: 16px;
+      }
+      
+      .about-section {
+        flex-direction: column;
+      }
+      
+      .about-text, .about-photo {
+        width: 100%;
+      }
+      
+      .about-text {
+        padding: 30px;
+      }
+      
+      .about-photo {
+        min-height: 350px;
+      }
+      
+      .side-line, .scroll-indicator, .parallax-element {
+        display: none;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="logo">
+      <a href="index.html">
+        <img src="orangelogo.png" alt="Veruschka Production">
+      </a>
+    </div>
+    <div class="menu-btn" id="menuBtn">
+      <span></span>
+    </div>
+  </header>
+  
+  <!-- NAVIGATION PANEL -->
+  <nav class="nav-panel" id="navPanel">
+    <ul class="nav-list">
+      <li><a href="index.html" style="--i:1;">STRONA GŁÓWNA</a></li>
+      <li><a href="onas.html" style="--i:2;">O NAS</a></li>
+      <li><a href="realizacje.html" style="--i:3;">REALIZACJE</a></li>
+      <li><a href="kontakt.html" style="--i:5;">KONTAKT</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://facebook.com/VeruschkaProduction" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/veruschkaproduction" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://youtube.com/veruschkaproduction" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://vimeo.com/veruschkaproduction" target="_blank"><i class="fab fa-vimeo-v"></i></a>
+    </div>
+  </nav>
+  
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="parallax-element parallax-1"></div>
+    <div class="parallax-element parallax-2"></div>
+    <div class="hero-content">
+      <h1>O nas</h1>
+      <p>Dowiedz się więcej o ludziach i inspiracjach Veruschka Production</p>
+    </div>
+  </section>
+  
+  <!-- ABOUT SECTION -->
+  <div class="about-section">
+    <!-- About Text -->
+    <div class="about-text">
+      <h2>Kim jesteśmy?</h2>
+      <p>
+        Jesteśmy niewielkim studiem filmowym zlokalizowanym w samym centrum Polski – w Łodzi.
+        To tutaj znajduje się <span class="highlight">jedna z najbardziej prestiżowych szkół filmowych w Europie</span>,
+        która wykształciła wybitnych reżyserów i operatorów (m.in. Krzysztofa Kieślowskiego, Andrzeja Wajdę czy Dariusza Wolskiego).
+      </p>
+      <p>
+        Nasz zespół tworzą absolwenci <span class="highlight">Łódzkiej Szkoły Filmowej</span> oraz <span class="highlight">Akademii Sztuk Pięknych</span>.
+        Członkowie ekipy mogą pochwalić się wyróżnieniami – w tym Złotą Kijanką na <em>Camerimage</em> i reprezentowaniem Polski w Cannes
+        podczas Young Talents Kodak Showcase.
+      </p>
+      <p>
+        <strong>Veruschka Production</strong> zajmuje się produkcją filmów dokumentalnych, spotów reklamowych i teledysków. Zadebiutowaliśmy klipem
+        do utworu polskiej piosenkarki Ani Rusowicz <em>„Czy da się kochać"</em>, który zdobył nagrodę
+        <span class="highlight">za najlepszy klip 2015 roku</span> w kategorii reżyseria na festiwalu Yach Film
+        oraz został uznany drugim najlepszym klipem w Polsce w 2015 roku przez portal Interia.
+      </p>
+      <p>
+        Nasze produkcje docenione zostały na wielu festiwalach (<span class="highlight">Berlin Music Video Awards</span>), a spoty społeczne emitowano
+        w Telewizji Publicznej (<em>TVP1, TVP2, TVP Info</em>).
+        O jakości naszych usług świadczą nie tylko zdobyte nagrody, ale też zaufanie i referencje licznych klientów.
+      </p>
+      <p>
+        Jeśli chcesz dowiedzieć się więcej lub porozmawiać o pomysłach na kolejny projekt filmowy –
+        zapraszamy do <a href="kontakt.html">kontaktu</a>.
+      </p>
+    </div>
+    
+    <!-- About Photo -->
+    <div class="about-photo">
+      <img src="grupowe.jpg" alt="Ekipa Veruschka Production">
+    </div>
+  </div>
+  
+  <!-- SIDE ELEMENTS -->
+  <div class="side-line"></div>
+  <div class="scroll-indicator">
+    <span>Przewiń</span>
+    <div class="line"></div>
+  </div>
+  
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>O Veruschka Production</h4>
+        <p>Jesteśmy studiem produkcyjnym specjalizującym się w tworzeniu wyjątkowych materiałów filmowych, które przekraczają granice konwencjonalnej narracji.</p>
+        <div class="social-links">
+          <a href="https://facebook.com/VeruschkaProduction" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com/veruschkaproduction" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://youtube.com/veruschkaproduction" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://vimeo.com/veruschkaproduction" target="_blank"><i class="fab fa-vimeo-v"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Nasze Usługi</h4>
+        <ul>
+          <li><a href="#">Produkcje filmowe</a></li>
+          <li><a href="#">Filmy korporacyjne</a></li>
+          <li><a href="#">Spoty reklamowe</a></li>
+          <li><a href="#">Filmy dokumentalne</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Kontakt</h4>
+        <p><i class="fas fa-map-marker-alt"></i> 00-000 Warszawa, ul. Przykladowa 10</p>
+        <p><i class="fas fa-phone"></i> <a href="tel:+48608487880">+48 608 487 880</a></p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:tomasz@veruschka.com.pl">tomasz@veruschka.com.pl</a></p>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; Veruschka Production 2025 | Wszystkie prawa zastrzeżone.
+    </div>
+  </footer>
+  
+  <script>
+    // Navigation toggle
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      this.classList.toggle('active');
+      document.getElementById('navPanel').classList.toggle('active');
+    });
+    
+    // Scrolled header effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    
+    // Parallax effect on mouse move
+    document.addEventListener('mousemove', function(e) {
+      const moveX = (e.clientX - window.innerWidth / 2) / 50;
+      const moveY = (e.clientY - window.innerHeight / 2) / 50;
+      
+      const parallaxElements = document.querySelectorAll('.parallax-element');
+      parallaxElements.forEach((el, index) => {
+        const factor = (index + 1) * 0.8;
+        el.style.transform = `translate(${moveX * factor}px, ${moveY * factor}px) rotate(${-5 + index * 15}deg)`;
+      });
+    });
+  </script>
+</body>
+</html>

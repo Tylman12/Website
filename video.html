@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Test</title>
+  <style>
+    body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+    
+    /* Make video fill entire screen with no styling that could interfere */
+    video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <!-- Absolute minimal video element -->
+  <video autoplay loop muted playsinline>
+    <source src="intro.mp4" type="video/mp4">
+  </video>
+  
+  <script>
+    // Force video to play
+    document.querySelector('video').play();
+    
+    // Report status
+    document.querySelector('video').addEventListener('playing', function() {
+      console.log('Video is playing!');
+      alert('Video is playing!');
+    });
+    
+    document.querySelector('video').addEventListener('error', function(e) {
+      console.error('Video error:', this.error);
+      alert('Video error: ' + JSON.stringify(this.error));
+    });
+  </script>
+</body>
+</html>

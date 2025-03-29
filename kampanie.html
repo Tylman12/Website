@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Nasze Kampanie Społeczne - Veruschka Production</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #101010;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Sticky header with logo and nav */
+    header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 40px;
+      z-index: 999;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      width: 160px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(180deg, #000 0%, #1a1a1a 100%);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      color: #ccc;
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Campaign list container */
+    .campaigns {
+      max-width: 1200px;
+      margin: 50px auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 0 20px;
+    }
+
+    .campaign {
+      background-color: #1a1a1a;
+      padding: 20px;
+      max-width: 550px;
+      width: 100%;
+      position: relative;
+      border-left: 5px solid #FFD700;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      /* fade & rise animation */
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .campaign h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .campaign iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+      margin-bottom: 15px;
+    }
+
+    .campaign p {
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+
+    /* Keyframe for campaign cards */
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      margin-top: 50px;
+      background: #000;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    footer img {
+      width: 250px;
+      margin-bottom: 10px;
+    }
+
+    .footer-text {
+      color: #888;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .logo img {
+        width: 120px;
+      }
+      .hero h1 {
+        font-size: 32px;
+      }
+      .hero p {
+        font-size: 16px;
+      }
+      .campaign {
+        max-width: 100%;
+      }
+      nav {
+        display: none; /* Or turn into a burger menu if needed. */
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Sticky Header -->
+<header>
+  <div class="logo">
+    <img src="logoveruschkaczarne.jpg" alt="Veruschka Production Logo">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="http://veruschka.com.pl">Strona Główna</a></li>
+      <li><a href="http://about.veruschka.com.pl">O nas</a></li>
+      <li><a href="http://portfolio.veruschka.com.pl">Realizacje</a></li>
+      <li><a href="http://contact.veruschka.com.pl">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<div class="hero">
+  <h1>Nasze Kampanie Społeczne</h1>
+  <p>Odkryj projekty, dzięki którym zmieniamy świat na lepsze</p>
+</div>
+
+<!-- Campaigns -->
+<div class="campaigns">
+
+  <!-- Malwina "Jesteś" -->
+  <div class="campaign">
+    <h3>Malwina Bihun - "Jesteś"</h3>
+    <iframe src="https://www.youtube.com/embed/NOOOcZv0qEU" allowfullscreen></iframe>
+    <p>Kampania społeczna promująca wiarę w siebie i w drugiego człowieka.</p>
+  </div>
+
+  <!-- ROAN "Naturalna Moc" (placeholder link) -->
+  <div class="campaign">
+    <h3>ROAN - "Naturalna Moc"</h3>
+    <iframe src="https://www.youtube.com/embed/XXXXXXXXXXX" allowfullscreen></iframe>
+    <p>Spot prezentujący siłę natury i konieczność dbania o środowisko.</p>
+  </div>
+
+  <!-- SILENTIO -->
+  <div class="campaign">
+    <h3>Spot "Silentio"</h3>
+    <iframe src="https://player.vimeo.com/video/166402272" allowfullscreen></iframe>
+    <p>Projekt zrealizowany dla fundacji Silentio, uświadamiający o problemach osób niesłyszących.</p>
+  </div>
+
+  <!-- Program Opieki nad Wcześniakami (placeholder link) -->
+  <div class="campaign">
+    <h3>Program Opieki nad Wcześniakami</h3>
+    <iframe src="https://www.youtube.com/embed/XXXXXXXXXXX" allowfullscreen></iframe>
+    <p>Kampania edukacyjna wspierająca rodziców wcześniaków.</p>
+  </div>
+
+  <!-- Pozwól opiekunom dorabiać (placeholder link) -->
+  <div class="campaign">
+    <h3>Pozwól opiekunom dorabiać</h3>
+    <iframe src="https://www.youtube.com/embed/XXXXXXXXXXX" allowfullscreen></iframe>
+    <p>Akcja społeczna mająca na celu uświadomienie potrzeb opiekunów osób zależnych.</p>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <img src="stopkaczarna.jpg" alt="Veruschka Footer Logo">
+  <p class="footer-text">&copy; Veruschka Production 2025 | Wszystkie prawa zastrzeżone.</p>
+</footer>
+
+</body>
+</html>
